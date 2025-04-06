@@ -1,13 +1,7 @@
 import random
 import numpy as np
 
-
-# Pokud budete spouštět tento soubor samostatně pro testování,
-# odkomentujte následující řádek a ujistěte se, že graph_generator.py
-# je ve stejném adresáři. Pro použití z vaší hlavní UI aplikace
-# tento import není potřeba, protože DistanceMatrix bude předána.
-# from graph_generator import DistanceMatrix
-
+# TODO: implementace nespojených měst
 class TSPGeneticSolver:
     """
     Třída implementující genetický algoritmus pro řešení problému obchodního cestujícího (TSP).
@@ -197,51 +191,3 @@ class TSPGeneticSolver:
         print(f"GA dokončen. Nejlepší nalezená vzdálenost: {best_overall_distance:.2f}")
         # Vrátíme nejlepší nalezenou cestu a její vzdálenost
         return best_overall_route, best_overall_distance
-
-
-# --- Příklad použití (pro samostatné testování) ---
-if __name__ == "__main__":
-    # Tento blok se spustí pouze pokud je soubor solver.py spuštěn přímo
-    # Vyžaduje, aby byla třída DistanceMatrix dostupná (např. importem)
-    try:
-        # Předpokládáme, že graph_generator.py je ve stejném adresáři
-        from graph_generator import DistanceMatrix
-
-        # Vytvoření testovací matice vzdáleností
-        num_cities_test = 20
-        dist_matrix_test = DistanceMatrix(number_of_cities=num_cities_test, min_distance=10, max_distance=500)
-        print(f"\n--- Testování TSP Solver ---")
-        print(f"Vytvořena testovací matice {num_cities_test}x{num_cities_test} měst.")
-        # dist_matrix_test.print_matrix() # Můžete odkomentovat pro zobrazení matice
-
-        # Parametry GA pro test
-        pop_size = 150
-        mut_rate = 0.08
-        num_gens = 500
-        elite = 2
-
-        # Vytvoření a spuštění solveru
-        solver = TSPGeneticSolver(
-            distance_matrix=dist_matrix_test,
-            population_size=pop_size,
-            mutation_rate=mut_rate,
-            n_generations=num_gens,
-            elite_size=elite
-        )
-        best_route_found, best_dist_found = solver.solve()
-
-        print("\n--- Výsledky testu ---")
-        if best_route_found:
-            print(f"Nejlepší nalezená cesta: {best_route_found}")
-            print(f"Nejlepší nalezená vzdálenost: {best_dist_found:.2f}")
-            # Ověření výpočtu vzdálenosti (pro kontrolu)
-            # calculated_dist = solver._calculate_total_distance(best_route_found)
-            # print(f"Ověřená vzdálenost: {calculated_dist:.2f}")
-        else:
-            print("Nepodařilo se nalézt řešení.")
-
-    except ImportError:
-        print("\nChyba: Pro spuštění testu je potřeba soubor 'graph_generator.py' se třídou DistanceMatrix.")
-        print("Ujistěte se, že je ve stejném adresáři.")
-    except Exception as e:
-        print(f"\nDošlo k chybě během testování: {e}")
